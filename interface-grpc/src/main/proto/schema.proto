@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+//import "google/protobuf/wrappers.proto";
+
+package org.example;
+
+option java_multiple_files = true;
+option java_package = "org.example.grpc.model";
+option java_outer_classname = "HelloWorldProto";
+
+message HelloRequest {
+  string name = 1;
+}
+
+message HelloReply {
+  string message = 1;
+}
+
+message ProductRequest {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message ProductIdRequest {
+  string id = 1;
+}
+
+service HelloService {
+  rpc sayHello (HelloRequest) returns (HelloReply) {
+  }
+}
+
+service ProductService {
+  rpc getProduct (ProductIdRequest) returns (ProductRequest) {
+  }
+  rpc addProduct (ProductRequest) returns (ProductRequest) {
+
+  }
+}
+
