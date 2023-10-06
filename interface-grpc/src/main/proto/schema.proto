@@ -1,6 +1,7 @@
 syntax = "proto3";
 
-//import "google/protobuf/wrappers.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
 
 package org.example;
 
@@ -35,7 +36,10 @@ service ProductService {
   rpc getProduct (ProductIdRequest) returns (ProductRequest) {
   }
   rpc addProduct (ProductRequest) returns (ProductRequest) {
-
+  }
+  rpc getAllProduct (google.protobuf.Empty) returns (stream ProductRequest) {
+  }
+  rpc countProduct(stream ProductRequest) returns (google.protobuf.Int32Value) {
   }
 }
 

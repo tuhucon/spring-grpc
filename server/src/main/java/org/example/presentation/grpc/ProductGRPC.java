@@ -1,5 +1,7 @@
 package org.example.presentation.grpc;
 
+import com.google.protobuf.Empty;
+import com.google.protobuf.Int32Value;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
@@ -14,6 +16,29 @@ import org.example.grpc.model.ProductServiceGrpc;
 public class ProductGRPC extends ProductServiceGrpc.ProductServiceImplBase {
 
     private final ProductService productService;
+
+    @Override
+    public StreamObserver<ProductRequest> countProduct(StreamObserver<Int32Value> responseObserver) {
+        return super.countProduct(responseObserver);
+    }
+
+    @Override
+    public void getAllProduct(Empty request, StreamObserver<ProductRequest> responseObserver) {
+        for (int i = 0; i < 10; i++) {
+            responseObserver.onNext(ProductRequest.newBuilder()
+                    .setId("id: " + i)
+                    .setName("name: " + i)
+                    .setDescription("description: " + i)
+                    .build()
+            );
+            try {
+                Thread.sleep(100L);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        responseObserver.onCompleted();
+    }
 
     @Override
     public void getProduct(ProductIdRequest request, StreamObserver<ProductRequest> responseObserver) {
