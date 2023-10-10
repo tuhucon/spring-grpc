@@ -19,7 +19,27 @@ public class ProductGRPC extends ProductServiceGrpc.ProductServiceImplBase {
 
     @Override
     public StreamObserver<ProductRequest> countProduct(StreamObserver<Int32Value> responseObserver) {
-        return super.countProduct(responseObserver);
+        return new StreamObserver<ProductRequest>() {
+            int count = 0;
+
+            @Override
+            public void onNext(ProductRequest value) {
+                System.out.println(Thread.currentThread());
+                count++;
+            }
+
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+            @Override
+            public void onCompleted() {
+                responseObserver.onNext(Int32Value.of(count));
+                responseObserver.onCompleted();
+            }
+        };
+
     }
 
     @Override
