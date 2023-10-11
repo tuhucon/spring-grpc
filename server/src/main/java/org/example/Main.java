@@ -1,5 +1,6 @@
 package org.example;
 
+import io.grpc.netty.shaded.io.grpc.netty.NettyServerBuilder;
 import net.devh.boot.grpc.server.serverfactory.GrpcServerConfigurer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +14,10 @@ public class Main {
     @Bean
     public GrpcServerConfigurer getGrpcServerConfigurer() {
         return serverBuilder -> {
-            serverBuilder.executor(Executors.newVirtualThreadPerTaskExecutor());
+            if (serverBuilder instanceof NettyServerBuilder nettyServerBuilder) {
+                nettyServerBuilder.executor(Executors.newVirtualThreadPerTaskExecutor());
+                nettyServerBuilder.maxConcurrentCallsPerConnection(200);
+            }
         };
     }
 
