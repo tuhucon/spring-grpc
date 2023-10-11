@@ -25,6 +25,6 @@ public class Main implements CommandLineRunner {
         HelloRequest hr = HelloRequest.newBuilder()
                 .setName("tu hu con")
                 .build();
-        System.out.println(helloServiceBlockingStub.withDeadlineAfter(300L, TimeUnit.MILLISECONDS).sayHello(hr));
+        System.out.println(helloServiceBlockingStub.withDeadlineAfter(200L, TimeUnit.MILLISECONDS).sayHello(hr));
     }
 }
