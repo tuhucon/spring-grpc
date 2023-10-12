@@ -26,9 +26,8 @@ public class HelloRPC extends HelloServiceGrpc.HelloServiceImplBase {
     @Override
     public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
         x.add(Thread.currentThread().toString());
-        System.out.println(Thread.currentThread().toString());
+        System.out.println(HelloInterceptor.HELLO_MSG.get());
         Hello hello = helloService.generateHello();
-
 
         Metadata trails = new Metadata();
         trails.put(Metadata.Key.of("errCode", Metadata.ASCII_STRING_MARSHALLER), "5678");

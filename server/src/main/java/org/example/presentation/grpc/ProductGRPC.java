@@ -17,8 +17,11 @@ public class ProductGRPC extends ProductServiceGrpc.ProductServiceImplBase {
 
     private final ProductService productService;
 
+
+
     @Override
     public StreamObserver<ProductRequest> countProduct(StreamObserver<Int32Value> responseObserver) {
+        System.out.println("hello context: " + HelloInterceptor.HELLO_MSG.get());
         return new StreamObserver<ProductRequest>() {
             int count = 0;
 
