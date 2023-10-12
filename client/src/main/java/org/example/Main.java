@@ -1,5 +1,7 @@
 package org.example;
 
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.example.grpc.model.HelloRequest;
 import org.example.grpc.model.HelloServiceGrpc;
@@ -25,6 +27,12 @@ public class Main implements CommandLineRunner {
         HelloRequest hr = HelloRequest.newBuilder()
                 .setName("tu hu con")
                 .build();
-        System.out.println(helloServiceBlockingStub.withDeadlineAfter(200L, TimeUnit.MILLISECONDS).sayHello(hr));
+        try {
+            helloServiceBlockingStub.withDeadlineAfter(2000L, TimeUnit.MILLISECONDS).sayHello(hr);
+        } catch (StatusRuntimeException t) {
+            System.out.println(t.getMessage());
+            System.out.println(t.getTrailers());
+            System.out.println(t.getCause());
+        }
     }
 }
