@@ -15,6 +15,7 @@ public class HelloInterceptor implements ServerInterceptor {
 
     @Override
     public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(ServerCall<ReqT, RespT> call, Metadata headers, ServerCallHandler<ReqT, RespT> next) {
+        System.out.println("header: " + headers.get(Metadata.Key.of("user-agent", Metadata.ASCII_STRING_MARSHALLER)));
         System.out.println("Hello Interceptor in thread: " + Thread.currentThread());
         Context context = Context.current().withValue(HELLO_MSG, "hello world from context");
         return Contexts.interceptCall(context, call, headers, next);
